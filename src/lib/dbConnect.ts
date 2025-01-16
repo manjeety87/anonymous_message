@@ -1,3 +1,4 @@
+import { mongodbURI } from "@/config/constant";
 import mongoose from "mongoose";
 
 type ConnectionObject ={
@@ -14,7 +15,7 @@ async function dbConnect(): Promise<void> {
     }
 
     try {
-        const db = await mongoose.connect(process.env.MONGODB_URI || "",{});
+        const db = await mongoose.connect(mongodbURI || "",{});
 
         connection.isConnected = db.connections[0].readyState;
 

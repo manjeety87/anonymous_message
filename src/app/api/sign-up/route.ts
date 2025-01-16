@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
@@ -6,6 +5,7 @@ import UserModel from "@/model/User";
 import { sendVerificationEmail } from "@/helpers/sendEmailVerification";
 
 export async function POST(request: Request) {
+  await dbConnect();
   try {
     const { username, email, password } = await request.json();
     const existingUserVerifiedByUsername = await UserModel.findOne({
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
         password: hashedPassword,
         verifyCode,
         verifyCodeExpiry: expiryDate,
-        isVerified: true,
+        isVerified: false,
         isAcceptingMessage: true,
         messages: [],
       });
