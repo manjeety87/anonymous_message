@@ -18,7 +18,6 @@ const MessageSchema = new Schema<Message>({
   },
 });
 
-
 export interface User extends Document {
   username: string;
   messages: Message[];
@@ -27,7 +26,7 @@ export interface User extends Document {
   password: string;
   verifyCode: string;
   verifyCodeExpiry: Date;
-  isAcceptingMessage:boolean
+  isAcceptingMessage: boolean;
 }
 
 const UserSchema = new Schema<User>({
@@ -69,7 +68,8 @@ const UserSchema = new Schema<User>({
   },
 });
 
-
-const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", UserSchema);
+const UserModel =
+  (mongoose.models.User as mongoose.Model<User>) ||
+  mongoose.model<User>("User", UserSchema);
 
 export default UserModel;

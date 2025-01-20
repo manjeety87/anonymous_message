@@ -19,7 +19,10 @@ export async function POST(request: Request) {
     // Is User Accepting Message
     if (!user.isAcceptingMessage) {
       return Response.json(
-        errorResponse(403, "User is not accepting the messages")
+        errorResponse(
+          403,
+          `${username} is not accepting any messages as of now`
+        )
       );
     }
 
@@ -27,8 +30,9 @@ export async function POST(request: Request) {
     user.messages.push(newMessage as Message);
     await user.save();
 
-    return Response.json(successResponse("Message sent successfully"));
-
+    return Response.json(
+      successResponse(`Message sent successfully to ${username}`)
+    );
   } catch (error) {
     console.log("Error adding message", error);
     return Response.json(errorResponse(500, "Internal Server Error"));

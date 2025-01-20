@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   const user: User = session?.user as User;
 
   if (!session || !session.user) {
-    return Response.json(errorResponse(401, "Udser not authenticated"));
+    return Response.json(errorResponse(401, "User not authenticated"));
   }
 
   const userId = user._id;
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET(request: Request) {
+export async function GET() {
   await dbConnect();
 
   const session = await getServerSession(authOptions);
