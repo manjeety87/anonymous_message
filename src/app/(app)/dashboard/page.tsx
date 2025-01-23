@@ -1,4 +1,5 @@
 "use client";
+import Loader from "@/components/Loader";
 import MessageCard from "@/components/MessageCard";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -23,7 +24,7 @@ const Dashboard = () => {
   const { toast } = useToast();
 
   const handleDeleteMessage = async (messageId: string) => {
-    setMessages(messages.filter((message) => message._id === messageId));
+    setMessages(messages.filter((message) => message._id !== messageId));
   };
 
   const { data: session } = useSession();
@@ -117,7 +118,8 @@ const Dashboard = () => {
   };
 
   if (!session || !session.user) {
-    return <div> Please login</div>;
+  // if (true) {
+    return <div> <Loader /></div>;
   }
 
   const { username } = session?.user as User;
@@ -133,7 +135,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
+    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 rounded w-full max-w-6xl">
       <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
 
       <div className="mb-4">

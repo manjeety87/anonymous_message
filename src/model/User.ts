@@ -1,8 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface Message extends Document {
   content: string;
+  isFavourite: boolean;
+  isMessageSeen: boolean;
   createdAt: Date;
 }
 
@@ -14,6 +15,16 @@ const MessageSchema = new Schema<Message>({
   createdAt: {
     type: Date,
     default: Date.now,
+    required: true,
+  },
+  isFavourite: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
+  isMessageSeen: {
+    type: Boolean,
+    default: false,
     required: true,
   },
 });

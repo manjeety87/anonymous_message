@@ -4,9 +4,12 @@ export { default } from "next-auth/middleware";
 
 export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request });
-  console.log("token middleware", token);
 
   const url = request.nextUrl;
+
+  // if (token?.username) {
+  //   return NextResponse.redirect(new URL("/dashboard", request.url));
+  // }
 
   if (
     token &&

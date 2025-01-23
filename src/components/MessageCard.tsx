@@ -2,6 +2,8 @@ import React from "react";
 import {
   Card,
   CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -17,7 +19,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
-import { X } from "lucide-react";
+import { Heart, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
@@ -56,37 +58,50 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
     <Card className="card-bordered">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle>{message.content}</CardTitle>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="destructive">
-                <X className="w-5 h-5" />
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your important feedback and remove your feedback from our
-                  servers.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => handleDeleteConfirm()}>
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-          {/* <CardDescription>Card Description</CardDescription> */}
+          <CardTitle>Anonymous</CardTitle>
+          <div className="flex items-center">
+            <Heart className="hover:fill-red-500 w-6 h-6 mr-2 stroke-current" />
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button className="w-10 h-8">
+                  <X className="w-4 h-4" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your important feedback and remove your feedback from our
+                    servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => handleDeleteConfirm()}>
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </div>
+        {/* <CardDescription> */}
+        {/* {message.content.length > 250
+          ? message.content.slice(0, 100) + "..."
+          : message.content} */}
+        {/* </CardDescription> */}
+      </CardHeader>
+      <CardContent>
+        {message.content.length > 150
+          ? message.content.slice(0, 150) + "..."
+          : message.content}
+      </CardContent>
+      <CardFooter>
         <div className="text-sm">
           {dayjs(message.createdAt).format("MMM D, YYYY h:mm A")}
         </div>
-      </CardHeader>
-      <CardContent></CardContent>
+      </CardFooter>
     </Card>
   );
 };

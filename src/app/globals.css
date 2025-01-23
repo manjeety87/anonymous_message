@@ -33,7 +33,9 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --shadow: 240 10% 80% / 10%;
   }
+
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
@@ -59,6 +61,337 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --shadow: 240 10% 80% / 10%;
+  }
+
+  .orange {
+    --background: 0 0% 100%;
+    --foreground: 20 14.3% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 14.3% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14.3% 4.1%;
+    --primary: 24.6 95% 53.1%;
+    --primary-foreground: 60 9.1% 97.8%;
+    --secondary: 60 4.8% 95.9%;
+    --secondary-foreground: 24 9.8% 10%;
+    --muted: 60 4.8% 95.9%;
+    --muted-foreground: 25 5.3% 44.7%;
+    --accent: 60 4.8% 95.9%;
+    --accent-foreground: 24 9.8% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 20 5.9% 90%;
+    --input: 20 5.9% 90%;
+    --ring: 24.6 95% 53.1%;
+    --radius: 0.5rem;
+    --shadow: 24 100% 30% / 15%;
+  }
+  .midnight {
+    --background: 222 47% 11%;
+    --foreground: 220 15% 95%;
+
+    --card: 224 45% 14%;
+    --card-foreground: 220 15% 95%;
+
+    --popover: 224 45% 14%;
+    --popover-foreground: 220 15% 95%;
+
+    --primary: 225 85% 60%;
+    --primary-foreground: 222 100% 95%;
+
+    --secondary: 220 30% 25%;
+    --secondary-foreground: 220 15% 95%;
+
+    --muted: 222 20% 20%;
+    --muted-foreground: 220 10% 65%;
+
+    --accent: 235 75% 45%;
+    --accent-foreground: 220 15% 95%;
+
+    --destructive: 0 80% 50%;
+    --destructive-foreground: 220 15% 95%;
+
+    --border: 220 25% 30%;
+    --input: 220 25% 30%;
+    --ring: 225 85% 60%;
+
+    --shadow: 255 255 255 45% 8%;
+    --radius: 0.5rem;
+  }
+  .sakura {
+    --background: 330 100% 98%;
+    --foreground: 330 20% 20%;
+
+    --card: 330 100% 98%;
+    --card-foreground: 330 20% 20%;
+
+    --popover: 330 100% 98%;
+    --popover-foreground: 330 20% 20%;
+
+    --primary: 340 80% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 320 30% 85%;
+    --secondary-foreground: 340 80% 25%;
+
+    --muted: 330 20% 90%;
+    --muted-foreground: 330 15% 40%;
+
+    --accent: 280 50% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 60% 45%;
+    --destructive-foreground: 330 20% 20%;
+
+    --border: 320 30% 85%;
+    --input: 320 30% 85%;
+    --ring: 340 80% 60%;
+
+    --shadow: 330 50% 80%;
+    --radius: 0.5rem;
+  }
+  .cyberpunk {
+    --background: 240 100% 6%;
+    --foreground: 180 100% 95%;
+
+    --card: 240 100% 8%;
+    --card-foreground: 180 100% 95%;
+
+    --popover: 240 100% 8%;
+    --popover-foreground: 180 100% 95%;
+
+    --primary: 180 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 300 80% 50%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 240 100% 12%;
+    --muted-foreground: 180 100% 60%;
+
+    --accent: 50 100% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 180 100% 95%;
+
+    --border: 240 100% 20%;
+    --input: 240 100% 20%;
+    --ring: 180 100% 50%;
+
+    --shadow: 240 100% 5%;
+    --radius: 0.5rem;
+  }
+  .forest {
+    --background: 140 40% 10%;
+    --foreground: 140 20% 90%;
+
+    --card: 140 40% 12%;
+    --card-foreground: 140 20% 90%;
+
+    --popover: 140 40% 12%;
+    --popover-foreground: 140 20% 90%;
+
+    --primary: 160 60% 40%;
+    --primary-foreground: 140 20% 90%;
+
+    --secondary: 120 30% 20%;
+    --secondary-foreground: 140 20% 90%;
+
+    --muted: 120 30% 25%;
+    --muted-foreground: 140 20% 60%;
+
+    --accent: 90 50% 35%;
+    --accent-foreground: 140 20% 90%;
+
+    --destructive: 0 60% 45%;
+    --destructive-foreground: 140 20% 90%;
+
+    --border: 120 30% 30%;
+    --input: 120 30% 30%;
+    --ring: 160 60% 40%;
+
+    --shadow: 140 40% 5%;
+    --radius: 0.5rem;
+  }
+  .sunset {
+    --background: 30 90% 10%;
+    --foreground: 30 20% 90%;
+
+    --card: 30 90% 12%;
+    --card-foreground: 30 20% 90%;
+
+    --popover: 30 90% 12%;
+    --popover-foreground: 30 20% 90%;
+
+    --primary: 15 85% 50%;
+    --primary-foreground: 30 20% 90%;
+
+    --secondary: 270 50% 40%;
+    --secondary-foreground: 30 20% 90%;
+
+    --muted: 270 50% 45%;
+    --muted-foreground: 30 20% 60%;
+
+    --accent: 330 60% 55%;
+    --accent-foreground: 30 20% 90%;
+
+    --destructive: 0 85% 50%;
+    --destructive-foreground: 30 20% 90%;
+
+    --border: 270 50% 50%;
+    --input: 270 50% 50%;
+    --ring: 15 85% 50%;
+
+    --shadow: 30 90% 5%;
+    --radius: 0.5rem;
+  }
+  .blue {
+    --background: 210 50% 96%;
+    --foreground: 220 20% 10%;
+    --card: 210 50% 98%;
+    --card-foreground: 220 20% 10%;
+    --popover: 210 50% 98%;
+    --popover-foreground: 220 20% 10%;
+    --primary: 220 80% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 60% 90%;
+    --secondary-foreground: 220 20% 10%;
+    --muted: 220 40% 85%;
+    --muted-foreground: 220 15% 35%;
+    --accent: 220 50% 75%;
+    --accent-foreground: 220 20% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 50% 70%;
+    --input: 220 50% 80%;
+    --ring: 220 80% 40%;
+    --radius: 0.5rem;
+  }
+
+  .green {
+    --background: 120 50% 96%;
+    --foreground: 120 20% 10%;
+    --card: 120 50% 98%;
+    --card-foreground: 120 20% 10%;
+    --popover: 120 50% 98%;
+    --popover-foreground: 120 20% 10%;
+    --primary: 120 80% 35%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 120 50% 90%;
+    --secondary-foreground: 120 20% 10%;
+    --muted: 120 40% 85%;
+    --muted-foreground: 120 15% 35%;
+    --accent: 120 50% 75%;
+    --accent-foreground: 120 20% 10%;
+    --ring: 120 80% 35%;
+  }
+  .purple {
+    --background: 280 50% 96%;
+    --foreground: 280 20% 10%;
+    --primary: 280 80% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 280 50% 90%;
+    --secondary-foreground: 280 20% 10%;
+    --muted: 280 40% 85%;
+    --muted-foreground: 280 15% 35%;
+    --ring: 280 80% 50%;
+  }
+
+  .custom {
+    --gradient: #b2fefa;
+
+    --background: 188 63.05% 6.8%;
+    --foreground: 188 9.7% 99.25%;
+
+    --muted: 188 48.5% 25.5%;
+    --muted-foreground: 188 9.7% 58.5%;
+
+    --popover: 188 45.6% 11.049999999999999%;
+    --popover-foreground: 188 9.7% 99.25%;
+
+    --card: 188 45.6% 11.049999999999999%;
+    --card-foreground: 188 9.7% 99.25%;
+
+    --border: 188 48.5% 25.5%;
+    --input: 188 48.5% 25.5%;
+
+    --primary: 188 97% 85%;
+    --primary-foreground: 188 9.7% 8.5%;
+
+    --secondary: 188 48.5% 25.5%;
+    --secondary-foreground: 188 9.7% 99.25%;
+
+    --accent: 188 48.5% 25.5%;
+    --accent-foreground: 188 9.7% 99.25%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 188 9.7% 99.25%;
+
+    --ring: 188 97% 85%;
+  }
+  .dark.purple {
+    --background: 280 40% 10%;
+    --foreground: 280 10% 90%;
+    --primary: 280 80% 60%;
+  }
+  .btn-purple {
+    background-color: hsl(280, 80%, 50%);
+    color: white;
+    border-radius: var(--radius);
+    transition: all 0.3s ease;
+  }
+  .dark.blue {
+    --background: 220 40% 10%;
+    --foreground: 220 10% 90%;
+    --card: 220 30% 15%;
+    --card-foreground: 220 10% 90%;
+    --popover: 220 30% 15%;
+    --popover-foreground: 220 10% 90%;
+    --primary: 220 80% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 30% 25%;
+    --secondary-foreground: 220 10% 90%;
+    --muted: 220 30% 20%;
+    --muted-foreground: 220 10% 60%;
+    --accent: 220 40% 30%;
+    --accent-foreground: 220 10% 90%;
+    --ring: 220 80% 50%;
+  }
+
+  .btn-purple:hover {
+    background-color: hsl(280, 85%, 45%);
+  }
+
+  .dark.green {
+    --background: 120 40% 10%;
+    --foreground: 120 10% 90%;
+    --primary: 120 80% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 120 30% 25%;
+    --secondary-foreground: 120 10% 90%;
+  }
+
+  .btn-blue {
+    background-color: hsl(220, 80%, 40%);
+    color: white;
+    border-radius: var(--radius);
+    transition: all 0.3s ease;
+  }
+
+  .btn-blue:hover {
+    background-color: hsl(220, 85%, 35%);
+  }
+  .btn-green {
+    background-color: hsl(120, 80%, 35%);
+    color: white;
+    border-radius: var(--radius);
+    transition: all 0.3s ease;
+  }
+
+  .btn-green:hover {
+    background-color: hsl(120, 85%, 30%);
   }
 }
 

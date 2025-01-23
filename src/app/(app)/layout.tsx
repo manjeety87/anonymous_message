@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      {children}
+      <div className="container mx-auto w-full">{children}</div>
     </div>
   );
 }

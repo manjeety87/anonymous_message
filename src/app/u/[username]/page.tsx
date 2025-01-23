@@ -86,7 +86,7 @@ const MessagePage = () => {
 
   const fetchSuggestedMessages = async () => {
     try {
-      complete("");
+      complete("What is the color of SKY?");
     } catch (error) {
       console.error("Error fetching messages:", error);
       // Handle error appropriately
@@ -139,6 +139,7 @@ const MessagePage = () => {
           >
             Suggest Messages
           </Button>
+          {completion && <div>{completion}</div>}
           <div className="my-4">Click on any messages below to select it.</div>
           <div className="container py-3 w-full border-2">
             <div className="px-8 pb-2 text-xl font-semibold">Messages</div>

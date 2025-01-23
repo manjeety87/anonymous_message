@@ -24,8 +24,6 @@ export async function GET() {
       { $group: { _id: "$_id", messages: { $push: "$messages" } } },
     ]).exec();
 
-    console.log("USER -------->>>>>>>>>", _user);
-
     if (!user || user.length === 0) {
       return Response.json(errorResponse(401, "User not found"));
     }

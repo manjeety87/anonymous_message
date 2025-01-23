@@ -13,7 +13,12 @@ export async function POST(request: Request) {
     const user = await UserModel.findOne({ username });
 
     if (!user) {
-      return Response.json(errorResponse(404, "User not found"));
+      return Response.json(
+        errorResponse(
+          404,
+          `There's no user ${username} exists. Please check the link again.`
+        )
+      );
     }
 
     // Is User Accepting Message
@@ -26,8 +31,13 @@ export async function POST(request: Request) {
       );
     }
 
-    const newMessage = { content, createdAt: new Date() };
-    user.messages.push(newMessage as Message);
+    const newMessage = <Message>{
+      content,
+      createdAt: new Date(),
+      isFavourite: false,
+      isMessageSeen: false,
+    };
+    user.messages.push(newMessage);
     await user.save();
 
     return Response.json(
