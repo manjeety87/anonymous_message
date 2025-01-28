@@ -21,6 +21,18 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useCompletion } from "ai/react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Separator } from "@radix-ui/react-dropdown-menu";
+import Link from "next/link";
+
+const specialChar = "||";
+
+const parseStringMessages = (messageString: string): string[] => {
+  return messageString.split(specialChar);
+};
+
+// const initialMessageString =
+//   "What's your favorite movie?||Do you have any pets?||What's your dream job?";
 
 const MessagePage = () => {
   const form = useForm<z.infer<typeof messageSchema>>({
@@ -66,13 +78,8 @@ const MessagePage = () => {
     }
   };
 
-  const suggestMessages = async () => {
-    try {
-      const response = await axios.get(`/api/suggest-messages`);
-      console.log("RESPONSE", response);
-    } catch (error) {
-      console.log("ERROR IN AI", error);
-    }
+  const handleMessageClick = (message: string) => {
+    form.setValue("message", message);
   };
 
   const {
@@ -86,7 +93,7 @@ const MessagePage = () => {
 
   const fetchSuggestedMessages = async () => {
     try {
-      complete("What is the color of SKY?");
+      complete("");
     } catch (error) {
       console.error("Error fetching messages:", error);
       // Handle error appropriately
@@ -139,9 +146,51 @@ const MessagePage = () => {
           >
             Suggest Messages
           </Button>
-          {completion && <div>{completion}</div>}
           <div className="my-4">Click on any messages below to select it.</div>
-          <div className="container py-3 w-full border-2">
+
+          <Card>
+            <CardHeader>
+              <h3 className="text-xl font-semibold">Messages</h3>
+            </CardHeader>
+            <CardContent className="flex flex-col space-y-4">
+              {error ? (
+                <p className="text-red-500">Hi{error.message}</p>
+              ) : completion !== "" ? (
+                parseStringMessages(completion).map((message, index) => (
+                  <Button
+                    key={index}
+                    variant="outline"
+                    className="mb-2 truncate h-auto"
+                    onClick={() => handleMessageClick(message)}
+                  >
+                    {message}
+                  </Button>
+                ))
+              ) : (
+                tempMessages.map((message, index) => (
+                  <Button
+                    key={index}
+                    variant="outline"
+                    className="mb-2"
+                    onClick={() => handleMessageClick(message)}
+                  >
+                    {message}
+                  </Button>
+                ))
+              )}
+            </CardContent>
+          </Card>
+          <Separator className="my-6" />
+          <div className="text-center">
+            <div className="mb-4">Get Your Message Board</div>
+            <Link href={"/sign-up"}>
+              <Button>Create Your Account</Button>
+            </Link>
+          </div>
+
+          {/* <div>{completion}</div> */}
+
+          {/* <div className="container py-3 w-full border-2">
             <div className="px-8 pb-2 text-xl font-semibold">Messages</div>
             {tempMessages.map((message, index) => (
               <div className="w-full my-6 px-6" key={index}>
@@ -154,7 +203,7 @@ const MessagePage = () => {
                 </Button>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </>

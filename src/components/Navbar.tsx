@@ -29,6 +29,11 @@ const Navbar = () => {
         <div className="flex items-center">
           {session ? (
             <>
+              <Link href="/dashboard" className="mr-2">
+                <Button className="w-full md:w-auto" variant={"outline"}>
+                  Dashboard
+                </Button>
+              </Link>
               <Button
                 onClick={() => signOut()}
                 className="w-full mr-3 md:w-auto"

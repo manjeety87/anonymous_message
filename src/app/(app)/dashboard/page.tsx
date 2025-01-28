@@ -119,7 +119,13 @@ const Dashboard = () => {
 
   if (!session || !session.user) {
   // if (true) {
-    return <div> <Loader /></div>;
+    return (
+      <div className="flex items-center justify-center">
+        <div className="loader w-[40%] md:w-[30%] h-[88vh] bg-white-500 flex items-center justify-center">
+          <Loader />
+        </div>
+      </div>
+    );
   }
 
   const { username } = session?.user as User;
