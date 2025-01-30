@@ -65,7 +65,7 @@ export async function GET() {
       successResponse(
         `Message acceptance status updated successfully`,
         // TODO: check again for this mistake
-        userDetails.isAcceptingMessage
+        { isAcceptingMessage: userDetails.isAcceptingMessage }
       )
     );
   } catch (error) {

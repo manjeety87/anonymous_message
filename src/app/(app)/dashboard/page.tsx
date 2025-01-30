@@ -36,10 +36,10 @@ const Dashboard = () => {
   const acceptMessages = watch("acceptMessages");
 
   const fetchAcceptMessages = useCallback(async () => {
-    setIsLoading(true);
+    setIsSwitchLoading(true);
     try {
       const response = await axios.get<ApiResponse>("/api/accept-message");
-      setValue("acceptMessages", response.data.isAcceptingMessages);
+      setValue("acceptMessages", response.data.isAcceptingMessage);
     } catch (error) {
       console.log("Error fetching messages", error);
       const axiosError = error as AxiosError<ApiResponse>;
@@ -51,7 +51,7 @@ const Dashboard = () => {
         variant: "destructive",
       });
     } finally {
-      setIsLoading(false);
+      setIsSwitchLoading(false);
     }
   }, [setValue, toast]);
 
@@ -74,8 +74,7 @@ const Dashboard = () => {
         toast({
           title: "Error",
           description:
-            axiosError.response?.data.message ||
-            "Failed to fetch isAcceptingMessages stautus setting",
+            axiosError.response?.data.message || "Failed to fetch Messages",
           variant: "destructive",
         });
       } finally {
@@ -90,7 +89,7 @@ const Dashboard = () => {
     if (!session || !session.user) return;
     fetchMessages();
     fetchAcceptMessages();
-  }, [session, setValue, fetchAcceptMessages, fetchMessages]);
+  }, [session, setValue, fetchMessages, fetchAcceptMessages, toast]);
 
   const handleSwitchChange = async () => {
     setIsSwitchLoading(true);
@@ -118,7 +117,7 @@ const Dashboard = () => {
   };
 
   if (!session || !session.user) {
-  // if (true) {
+    // if (true) {
     return (
       <div className="flex items-center justify-center">
         <div className="loader w-[40%] md:w-[30%] h-[88vh] bg-white-500 flex items-center justify-center">
