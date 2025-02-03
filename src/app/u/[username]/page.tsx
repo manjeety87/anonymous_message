@@ -17,13 +17,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useCompletion } from "ai/react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import Link from "next/link";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const specialChar = "||";
 
@@ -31,13 +33,11 @@ const parseStringMessages = (messageString: string): string[] => {
   return messageString.split(specialChar);
 };
 
-// const initialMessageString =
-//   "What's your favorite movie?||Do you have any pets?||What's your dream job?";
-
 const MessagePage = () => {
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
   });
+  const [loading, setLoading] = useState(false);
   const tempMessages: string[] = [
     "What is your tech stack?",
     "What's your dream job?",
@@ -48,32 +48,7 @@ const MessagePage = () => {
   const { toast } = useToast();
 
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
-    try {
-      // Call the moderation API
-      const moderationResponse = await axios.post("/api/check-moderation", {
-        input: data.message,
-      });
-
-      const { flagged } = moderationResponse.data;
-
-      if (flagged) {
-        toast({
-          title: "Inappropriate content detected",
-          description: "Please modify your message before sending.",
-          variant: "destructive",
-        });
-        return; // Stop submission
-      }
-    } catch (error) {
-      console.log("Check moderation failed", error);
-      toast({
-        title: "Error",
-        description:
-          "An error occured while checking moderation. Please try again.",
-        variant: "destructive",
-      });
-      return;
-    }
+    setLoading(true);
     try {
       const response = await axios.post("/api/send-message", {
         username: username,
@@ -90,11 +65,13 @@ const MessagePage = () => {
           title: "Success",
           description: response.data.message,
         });
+        form.setValue("message", "");
       }
-      form.setValue("message", '');
+      setLoading(false);
     } catch (error) {
       console.log("Error sending message to user", error);
       const axiosError = error as AxiosError<ApiResponse>;
+      setLoading(false);
       toast({
         title: "Error",
         description:
@@ -109,6 +86,9 @@ const MessagePage = () => {
     form.setValue("message", message);
   };
 
+  const [retryCountdown, setRetryCountdown] = useState(0);
+  const [errorDelay, setErrorDelay] = useState(0);
+
   const {
     complete,
     completion,
@@ -118,14 +98,31 @@ const MessagePage = () => {
     api: "/api/suggest-messages",
   });
 
-  const fetchSuggestedMessages = async () => {
-    try {
-      complete("");
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-      // Handle error appropriately
+  useEffect(() => {
+    if (error?.message) {
+      const match = error.message.match(/Please try again in (\d+)s/);
+      const seconds = match ? parseInt(match[1], 10) : 20; // Default to 20s if not found
+      setErrorDelay(seconds);
+      setRetryCountdown(seconds);
+      toast({
+        title: "Attention please!",
+        description: `Free usage limit exceeded. Please try again in ${retryCountdown}s`,
+        variant: "destructive",
+      });
+
+      const timer = setInterval(() => {
+        setRetryCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
     }
-  };
+  }, [error, retryCountdown, toast]);
 
   return (
     <>
@@ -153,11 +150,11 @@ const MessagePage = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={false}>
-              {false ? (
+            <Button type="submit" disabled={loading}>
+              {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Please wait
+                  Sending...
                 </>
               ) : (
                 "Send it"
@@ -168,10 +165,19 @@ const MessagePage = () => {
         <div className="mt-12">
           <Button
             className="h-10"
-            disabled={isSuggestLoading}
-            onClick={fetchSuggestedMessages}
+            disabled={isSuggestLoading || retryCountdown > 0}
+            onClick={() => complete("")}
           >
-            Suggest Messages
+            {isSuggestLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Suggesting...
+              </>
+            ) : retryCountdown > 0 ? (
+              `Retry in ${retryCountdown}s`
+            ) : (
+              "Suggest Messages"
+            )}
           </Button>
           <div className="my-4">Click on any messages below to select it.</div>
 
@@ -181,7 +187,17 @@ const MessagePage = () => {
             </CardHeader>
             <CardContent className="flex flex-col space-y-4">
               {error ? (
-                <p className="text-red-500">Hi{error.message}</p>
+                <Alert>
+                  <AlertTitle>⚠️ Attention!</AlertTitle>
+                  <AlertDescription>
+                    {error?.message &&
+                      retryCountdown > 0 &&
+                      `Free usage limit exceeded. Please try again in ${retryCountdown}s`}
+                    {error?.message &&
+                      retryCountdown === 0 &&
+                      `Please go ahead and send a message to ${username}`}
+                  </AlertDescription>
+                </Alert>
               ) : completion !== "" ? (
                 parseStringMessages(completion).map((message, index) => (
                   <Button
@@ -193,6 +209,14 @@ const MessagePage = () => {
                     {message}
                   </Button>
                 ))
+              ) : isSuggestLoading ? (
+                <>
+                  <div className="space-y-5">
+                    <Skeleton className="h-9" />
+                    <Skeleton className="h-9" />
+                    <Skeleton className="h-9" />
+                  </div>
+                </>
               ) : (
                 tempMessages.map((message, index) => (
                   <Button
@@ -214,23 +238,6 @@ const MessagePage = () => {
               <Button>Create Your Account</Button>
             </Link>
           </div>
-
-          {/* <div>{completion}</div> */}
-
-          {/* <div className="container py-3 w-full border-2">
-            <div className="px-8 pb-2 text-xl font-semibold">Messages</div>
-            {tempMessages.map((message, index) => (
-              <div className="w-full my-6 px-6" key={index}>
-                <Button
-                  className="w-full h-10 font-semibold"
-                  variant={"outline"}
-                  onClick={() => form.setValue("message", message)}
-                >
-                  {message}
-                </Button>
-              </div>
-            ))}
-          </div> */}
         </div>
       </div>
     </>
