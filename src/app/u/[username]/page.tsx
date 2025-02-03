@@ -49,6 +49,32 @@ const MessagePage = () => {
 
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
     try {
+      // Call the moderation API
+      const moderationResponse = await axios.post("/api/check-moderation", {
+        input: data.message,
+      });
+
+      const { flagged } = moderationResponse.data;
+
+      if (flagged) {
+        toast({
+          title: "Inappropriate content detected",
+          description: "Please modify your message before sending.",
+          variant: "destructive",
+        });
+        return; // Stop submission
+      }
+    } catch (error) {
+      console.log("Check moderation failed", error);
+      toast({
+        title: "Error",
+        description:
+          "An error occured while checking moderation. Please try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+    try {
       const response = await axios.post("/api/send-message", {
         username: username,
         content: data.message,
@@ -65,6 +91,7 @@ const MessagePage = () => {
           description: response.data.message,
         });
       }
+      form.setValue("message", '');
     } catch (error) {
       console.log("Error sending message to user", error);
       const axiosError = error as AxiosError<ApiResponse>;
