@@ -39,9 +39,9 @@ const MessagePage = () => {
   });
   const [loading, setLoading] = useState(false);
   const tempMessages: string[] = [
-    "What is your tech stack?",
-    "What's your dream job?",
-    "Do you love coding?",
+    "What’s a book or movie that has significantly influenced your perspective on life?",
+    "If you could travel anywhere in the world for a week, where would you go and why?",
+    "What’s a unique tradition or custom from your culture that you think everyone should experience?",
   ];
   const params = useParams<{ username: string }>();
   const username = params.username;
@@ -122,7 +122,7 @@ const MessagePage = () => {
 
       return () => clearInterval(timer);
     }
-  }, [error, retryCountdown, toast]);
+  }, [error]);
 
   return (
     <>
@@ -203,7 +203,7 @@ const MessagePage = () => {
                   <Button
                     key={index}
                     variant="outline"
-                    className="mb-2 truncate h-auto"
+                    className="mb-2 truncate text-wrap h-auto"
                     onClick={() => handleMessageClick(message)}
                   >
                     {message}
@@ -222,7 +222,7 @@ const MessagePage = () => {
                   <Button
                     key={index}
                     variant="outline"
-                    className="mb-2"
+                    className="mb-2 truncate text-wrap h-auto"
                     onClick={() => handleMessageClick(message)}
                   >
                     {message}

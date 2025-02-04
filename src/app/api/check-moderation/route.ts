@@ -10,7 +10,7 @@ async function checkModeration(input: string, retries = 3, delay = 1000) {
   for (let attempt = 0; attempt < retries; attempt++) {
     try {
       console.log(`Attempt ${attempt + 1}: Checking moderation...`);
-      const moderation = await openai.moderations.create({
+      const moderation = openai.moderations.create({
         model: "omni-moderation-latest",
         input,
       });
