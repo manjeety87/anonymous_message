@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -29,11 +28,16 @@ import dayjs from "dayjs";
 type MessageCardProps = {
   message: Message;
   onMessageDelete: (messageId: string) => void;
+  isFavourite: boolean;
 };
 
-const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
+const MessageCard = ({
+  message,
+  onMessageDelete,
+  isFavourite: isFavourites,
+}: MessageCardProps) => {
   const { toast } = useToast();
-
+  const [isFavourite, setIsFavourite] = useState(isFavourites);
   const handleDeleteConfirm = async () => {
     try {
       const response = await axios.delete<ApiResponse>(
@@ -53,6 +57,29 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
       });
     }
   };
+  const handleFavouritesConfirm = async (isFavourite: boolean) => {
+    setIsFavourite(isFavourite);
+    try {
+      const response = await axios.put<ApiResponse>(
+        `/api/add-favourite/${message._id}/${isFavourite}`
+      );
+      toast({
+        title: response.data.message,
+      });
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      toast({
+        title: "Error",
+        description:
+          axiosError.response?.data.message ?? "Failed to add to favourites",
+        variant: "destructive",
+      });
+    }
+  };
+
+  useEffect(() => {
+    setIsFavourite(isFavourites);
+  }, [isFavourites]);
 
   return (
     <Card className="card-bordered">
@@ -60,7 +87,11 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
         <div className="flex justify-between items-center">
           <CardTitle>Anonymous</CardTitle>
           <div className="flex items-center">
-            <Heart className="hover:fill-red-500 w-6 h-6 mr-2 stroke-current" />
+            <Heart
+              className={`w-6 h-6 mr-2 stroke-current ${isFavourite ? "fill-red-500" : ""} hover:fill-red-500`}
+              // className={`${true ? "fill-red-500" : ""} hover:fill-red-500 w-6 h-6 mr-2 stroke-current`}
+              onClick={() => handleFavouritesConfirm(!isFavourite)}
+            />
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button className="w-10 h-8">

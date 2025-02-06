@@ -188,6 +188,7 @@ const Dashboard = () => {
           messages.map((message) => (
             <MessageCard
               key={message._id as string}
+              isFavourite={message.isFavourite}
               message={message}
               onMessageDelete={handleDeleteMessage}
             />
