@@ -43,7 +43,7 @@ const Navbar = () => {
               </Button>
             </>
           ) : (
-            <Link href="/sign-in">
+            <Link href="/sign-in" className="mr-2">
               <Button className="w-full md:w-auto" variant={"outline"}>
                 Login
               </Button>
