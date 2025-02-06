@@ -8,6 +8,17 @@ import { Button } from "@/components/ui/button";
 
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog";
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -34,13 +45,39 @@ const Navbar = () => {
                   Dashboard
                 </Button>
               </Link>
-              <Button
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    // onClick={() => signOut()}
+                    className="w-full mr-3 md:w-auto"
+                    variant="outline"
+                  >
+                    Logout
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Do you wish you logout?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      You can always login again and continue where you left all
+                      the feedbacks are safe and secure.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => signOut()}>
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+              {/* <Button
                 onClick={() => signOut()}
                 className="w-full mr-3 md:w-auto"
                 variant="outline"
               >
                 Logout
-              </Button>
+              </Button> */}
             </>
           ) : (
             <Link href="/sign-in" className="mr-2">
