@@ -49,6 +49,13 @@ const Navbar = () => {
                   </Button>
                 </Link>
               )}
+              {pathname !== "/" && (
+                <Link href="/" className="mr-2">
+                  <Button className="w-full md:w-auto" variant={"outline"}>
+                    Home
+                  </Button>
+                </Link>
+              )}
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button
