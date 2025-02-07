@@ -19,10 +19,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const { data: session } = useSession();
   const user: User = session?.user as User;
+  const pathname = usePathname();
 
   return (
     <nav className="p-4 md:p-6 shadow-[0_12px_20px_-15px_rgba(255,255,255,0.3)] ">
@@ -40,11 +42,13 @@ const Navbar = () => {
         <div className="flex items-center">
           {session ? (
             <>
-              <Link href="/dashboard" className="mr-2">
-                <Button className="w-full md:w-auto" variant={"outline"}>
-                  Dashboard
-                </Button>
-              </Link>
+              {pathname !== "/dashboard" && (
+                <Link href="/dashboard" className="mr-2">
+                  <Button className="w-full md:w-auto" variant={"outline"}>
+                    Dashboard
+                  </Button>
+                </Link>
+              )}
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button
