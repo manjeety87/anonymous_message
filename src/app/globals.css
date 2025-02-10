@@ -2,11 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
+@plugin "tailwindcss-animate";
+
+@variant dark (&:is(.dark *));
+
+
+@theme {
+  --color-background: var(--color-white);
+  --color-foreground: var(--color-slate-900);
+  --color-card: var(--color-white);
+  --color-card-foreground: var(--color-slate-900);
+  --color-popover: var(--color-white);
+  --color-popover-foreground: var(--color-slate-900);
+  --color-primary: var(--color-slate-900);
+  --color-primary-foreground: var(--color-slate-50);
+  --color-secondary: var(--color-slate-100);
+  --color-secondary-foreground: var(--color-slate-900);
+  --color-muted: var(--color-slate-100);
+  --color-muted-foreground: var(--color-slate-500);
+  --color-accent: var(--color-slate-100);
+  --color-accent-foreground: var(--color-slate-900);
+  --color-destructive: var(--color-rose-500);
+  --color-destructive-foreground: var(--color-slate-50);
+  --color-border: var(--color-slate-200);
+  --color-input: var(--color-slate-200);
+  --color-ring: var(--color-slate-400);
+
+  --radius: 0.5rem;
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
 }
 
-@layer base {
+@layer theme {
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -395,11 +423,27 @@ body {
   }
 }
 
-@layer base {
+/* @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
   }
+} */
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-border);
+  }
+  body {
+    @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+}
+
+@theme inline {
+  --radius-inherit: inherit;
 }

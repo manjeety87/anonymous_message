@@ -48,38 +48,54 @@ const MessagePage = () => {
   const { toast } = useToast();
 
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
-    setLoading(true);
     try {
-      const response = await axios.post("/api/send-message", {
-        username: username,
-        content: data.message,
+      const response = await axios.post("/api/check-moderation", {
+        input: data.message,
       });
-      if (response.data.error) {
-        toast({
-          title: "Uh oh! Something went wrong.",
-          description: response.data.message,
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Success",
-          description: response.data.message,
-        });
-        form.setValue("message", "");
-      }
-      setLoading(false);
+      console.log("Moderation response", response);
+      
     } catch (error) {
-      console.log("Error sending message to user", error);
-      const axiosError = error as AxiosError<ApiResponse>;
-      setLoading(false);
+      console.log("Error moderating input", error);
+
       toast({
         title: "Error",
-        description:
-          axiosError.response?.data.message ||
-          `Error sending message to ${username}`,
+        description: "Error moderating input",
         variant: "destructive",
       });
     }
+
+    // setLoading(true);
+    // try {
+    //   const response = await axios.post("/api/send-message", {
+    //     username: username,
+    //     content: data.message,
+    //   });
+    //   if (response.data.error) {
+    //     toast({
+    //       title: "Uh oh! Something went wrong.",
+    //       description: response.data.message,
+    //       variant: "destructive",
+    //     });
+    //   } else {
+    //     toast({
+    //       title: "Success",
+    //       description: response.data.message,
+    //     });
+    //     form.setValue("message", "");
+    //   }
+    //   setLoading(false);
+    // } catch (error) {
+    //   console.log("Error sending message to user", error);
+    //   const axiosError = error as AxiosError<ApiResponse>;
+    //   setLoading(false);
+    //   toast({
+    //     title: "Error",
+    //     description:
+    //       axiosError.response?.data.message ||
+    //       `Error sending message to ${username}`,
+    //     variant: "destructive",
+    //   });
+    // }
   };
 
   const handleMessageClick = (message: string) => {
